@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
             return resultCode;
         }
         CustomerInfo customerInfo = customerDao.findCustomerInfoByMobileNo(customer.getMobileNo());
-        if(customerInfo == null){
+        if(customerInfo != null){
             resultCode.setCode(ResultEnum.EXIST.getCode());
             resultCode.setMsg(ResultEnum.EXIST.getMsg());
             return resultCode;
