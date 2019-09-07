@@ -3,7 +3,8 @@ package com.cosmose.order.entity;
 public enum ResultEnum {
     OK("00", "success"),
     FAIL("01", "failed"),
-    CHECK_EXCEPTION("02", "miss necessary parameter");
+    CHECK_EXCEPTION("02", "miss necessary parameter"),
+    EXIST("04", "records already exist");
 
     private String code;
     private String msg;

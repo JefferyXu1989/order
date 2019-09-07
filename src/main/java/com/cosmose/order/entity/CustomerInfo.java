@@ -11,8 +11,6 @@ public class CustomerInfo {
     private String name;
     private String gender;
     private String mobileNo;
-    private String idNo;
-    private String certificateType;
     private String birthday;
     private Date createdAt;
     private String createdBy;
@@ -57,26 +55,6 @@ public class CustomerInfo {
 
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
-    }
-
-    @Basic
-    @Column(name = "id_no")
-    public String getIdNo() {
-        return idNo;
-    }
-
-    public void setIdNo(String idNo) {
-        this.idNo = idNo;
-    }
-
-    @Basic
-    @Column(name = "certificate_type")
-    public String getCertificateType() {
-        return certificateType;
-    }
-
-    public void setCertificateType(String certificateType) {
-        this.certificateType = certificateType;
     }
 
     @Basic
@@ -135,11 +113,9 @@ public class CustomerInfo {
         if (o == null || getClass() != o.getClass()) return false;
         CustomerInfo that = (CustomerInfo) o;
         return id == that.id &&
-                mobileNo == that.mobileNo &&
-                idNo == that.idNo &&
-                certificateType == that.certificateType &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(gender, that.gender) &&
+                Objects.equals(mobileNo, that.mobileNo) &&
                 Objects.equals(birthday, that.birthday) &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(createdBy, that.createdBy) &&
@@ -149,6 +125,6 @@ public class CustomerInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, gender, mobileNo, idNo, certificateType, birthday, createdAt, createdBy, updatedAt, updatedBy);
+        return Objects.hash(id, name, gender, mobileNo, birthday, createdAt, createdBy, updatedAt, updatedBy);
     }
 }

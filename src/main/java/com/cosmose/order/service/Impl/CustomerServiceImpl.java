@@ -29,7 +29,12 @@ public class CustomerServiceImpl implements CustomerService {
             resultCode.setMsg(ResultEnum.CHECK_EXCEPTION.getMsg());
             return resultCode;
         }
-        customerDao.findAll();
+        CustomerInfo customerInfo = customerDao.findCustomerInfoByMobileNo(customer.getMobileNo());
+        if(customerInfo == null){
+            resultCode.setCode(ResultEnum.EXIST.getCode());
+            resultCode.setMsg(ResultEnum.EXIST.getMsg());
+            return resultCode;
+        }
         customer.setCreatedAt(new Date());
         customer.setCreatedBy("SYS");
         customer.setUpdatedAt(new Date());
@@ -50,8 +55,8 @@ public class CustomerServiceImpl implements CustomerService {
         if(customer == null){
             flag = true;
         }
-        if(customer.getBirthday() == null || customer.getCertificateType() == null || customer.getGender() == null ||
-        customer.getIdNo() == null || customer.getMobileNo() == null || customer.getName() == null){
+        if(customer.getBirthday() == null || customer.getGender() == null ||
+        customer.getMobileNo() == null || customer.getName() == null){
             flag = true;
         }
         return flag;

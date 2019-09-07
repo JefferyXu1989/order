@@ -9,6 +9,4 @@ public interface CustomerService {
 
     ResultCode save(CustomerInfo customer);
 
-    List<CustomerInfo> findAll();
-
 }

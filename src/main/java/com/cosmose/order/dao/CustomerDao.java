@@ -9,5 +9,6 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 
 public interface CustomerDao extends CrudRepository<CustomerInfo,Integer> {
-
+    @Query("select t from CustomerInfo t where t.mobileNo = :mobileNo")
+    public CustomerInfo findCustomerInfoByMobileNo(@Param("mobileNo") String mobileNo);
 }
