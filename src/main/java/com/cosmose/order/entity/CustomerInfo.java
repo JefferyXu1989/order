@@ -1,13 +1,14 @@
 package com.cosmose.order.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "customer_info", schema = "orderbusiness")
+@Table(name = "customer_info", schema = "orderbusiness", catalog = "")
 public class CustomerInfo {
-    private long id;
+    private long customerId;
     private String name;
     private String gender;
     private String mobileNo;
@@ -18,13 +19,13 @@ public class CustomerInfo {
     private String updatedBy;
 
     @Id
-    @Column(name = "id")
-    public long getId() {
-        return id;
+    @Column(name = "customer_id")
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     @Basic
@@ -112,7 +113,7 @@ public class CustomerInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerInfo that = (CustomerInfo) o;
-        return id == that.id &&
+        return customerId == that.customerId &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(gender, that.gender) &&
                 Objects.equals(mobileNo, that.mobileNo) &&
@@ -125,6 +126,6 @@ public class CustomerInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, gender, mobileNo, birthday, createdAt, createdBy, updatedAt, updatedBy);
+        return Objects.hash(customerId, name, gender, mobileNo, birthday, createdAt, createdBy, updatedAt, updatedBy);
     }
 }
