@@ -6,10 +6,11 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "customer_info", schema = "orderbusiness", catalog = "")
+@Table(name = "customer_info", schema = "orderbusiness")
 public class CustomerInfo {
     private long customerId;
-    private String name;
+    private String userName;
+    private String encPwd;
     private String gender;
     private String mobileNo;
     private String birthday;
@@ -29,13 +30,23 @@ public class CustomerInfo {
     }
 
     @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
+    @Column(name = "user_name")
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Basic
+    @Column(name = "enc_pwd")
+    public String getEncPwd() {
+        return encPwd;
+    }
+
+    public void setEncPwd(String encPwd) {
+        this.encPwd = encPwd;
     }
 
     @Basic
@@ -114,7 +125,8 @@ public class CustomerInfo {
         if (o == null || getClass() != o.getClass()) return false;
         CustomerInfo that = (CustomerInfo) o;
         return customerId == that.customerId &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(userName, that.userName) &&
+                Objects.equals(encPwd, that.encPwd) &&
                 Objects.equals(gender, that.gender) &&
                 Objects.equals(mobileNo, that.mobileNo) &&
                 Objects.equals(birthday, that.birthday) &&
@@ -126,6 +138,6 @@ public class CustomerInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, name, gender, mobileNo, birthday, createdAt, createdBy, updatedAt, updatedBy);
+        return Objects.hash(customerId, userName, encPwd, gender, mobileNo, birthday, createdAt, createdBy, updatedAt, updatedBy);
     }
 }

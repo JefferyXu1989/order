@@ -56,7 +56,8 @@ public class CustomerServiceImpl implements CustomerService {
             flag = true;
         }
         if(customer.getBirthday() == null || customer.getGender() == null ||
-        customer.getMobileNo() == null || customer.getName() == null){
+        customer.getMobileNo() == null || customer.getUserName() == null ||
+        customer.getEncPwd() == null){
             flag = true;
         }
         return flag;
