@@ -10,4 +10,6 @@ public interface CustomerService {
 
     ResultCode cancelHotelRoom(long reserveId);
 
+    ResultResponse checkReservation(long customerId);
+
 }

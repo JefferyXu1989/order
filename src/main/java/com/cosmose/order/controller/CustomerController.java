@@ -29,4 +29,9 @@ public class CustomerController {
     public ResultCode findAvailableHotelRoom(@RequestParam long reserveId){
         return customerService.cancelHotelRoom(reserveId);
     }
+
+    @PostMapping("/checkReservation")
+    public ResultResponse checkReservation(@RequestParam long customerId){
+        return customerService.checkReservation(customerId);
+    }
 }

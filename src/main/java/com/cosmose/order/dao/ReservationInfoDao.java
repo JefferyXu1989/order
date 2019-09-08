@@ -8,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
+
 public interface ReservationInfoDao extends CrudRepository<ReservationInfo,Integer> {
-    @Query("select t from ReservationInfo t where t.reserveId = :reserveId")
+    @Query("select t from ReservationInfo t where t.reserveId = :reserveId and t.status = 1")
     public ReservationInfo findReservationInfoByReserveId(@Param("reserveId") long reserveId);
 
     @Modifying

@@ -1,9 +1,9 @@
 package com.cosmose.order.entity;
 
-public class ResultResponse {
+public class ResultResponse<T> {
     private String code;
     private String msg;
-    private Class<?> data;
+    private T data;
 
     public String getCode() {
         return code;
@@ -21,11 +21,11 @@ public class ResultResponse {
         this.msg = msg;
     }
 
-    public Class<?> getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Class<?> data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

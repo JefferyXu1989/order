@@ -1,7 +1,5 @@
 package com.cosmose.order.entity;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -12,7 +10,7 @@ import java.util.Objects;
 public class ReservationInfo {
     private long reserveId;
     private long roomId;
-    private long clientId;
+    private long customerId;
     private Date startDate;
     private Date lastDate;
     private byte status;
@@ -42,13 +40,13 @@ public class ReservationInfo {
     }
 
     @Basic
-    @Column(name = "client_id")
-    public long getClientId() {
-        return clientId;
+    @Column(name = "customer_id")
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     @Basic
@@ -128,7 +126,7 @@ public class ReservationInfo {
         ReservationInfo that = (ReservationInfo) o;
         return reserveId == that.reserveId &&
                 roomId == that.roomId &&
-                clientId == that.clientId &&
+                customerId == that.customerId &&
                 status == that.status &&
                 Objects.equals(startDate, that.startDate) &&
                 Objects.equals(lastDate, that.lastDate) &&
@@ -140,6 +138,6 @@ public class ReservationInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(reserveId, roomId, clientId, startDate, lastDate, status, createdAt, createdBy, updatedAt, updatedBy);
+        return Objects.hash(reserveId, roomId, customerId, startDate, lastDate, status, createdAt, createdBy, updatedAt, updatedBy);
     }
 }

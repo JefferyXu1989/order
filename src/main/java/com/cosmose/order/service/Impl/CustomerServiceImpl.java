@@ -1,13 +1,19 @@
 package com.cosmose.order.service.Impl;
 
+import com.cosmose.order.Utils.NativeResultProcessUtils;
 import com.cosmose.order.dao.CustomerDao;
 import com.cosmose.order.dao.ReservationInfoDao;
+import com.cosmose.order.dao.RoomInfoDao;
+import com.cosmose.order.dto.ReservationDto;
 import com.cosmose.order.entity.*;
 import com.cosmose.order.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import javax.persistence.Tuple;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +29,8 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
     @Autowired
     private ReservationInfoDao reservationInfoDao;
+    @Autowired
+    private RoomInfoDao roomInfoDao;
 
     @Override
     public ResultCode save(CustomerInfo customer) {
@@ -70,6 +78,25 @@ public class CustomerServiceImpl implements CustomerService {
             resultCode.setMsg(ResultEnum.FAIL.getMsg());
         }
         return resultCode;
+    }
+
+    public ResultResponse checkReservation(long customerId){
+        ResultResponse resultResponse =  new ResultResponse();
+        List<Tuple> tupleList = roomInfoDao.findReservationByCustomerId(customerId);
+        List<ReservationDto> reservationDtoList = new ArrayList<ReservationDto>();
+        for(int i = 0; i < tupleList.size(); i ++){
+            ReservationDto reservationDto = new ReservationDto();
+            reservationDto = NativeResultProcessUtils.processResult(tupleList.get(i), ReservationDto.class);
+            reservationDtoList.add(reservationDto);
+        }
+        if(CollectionUtils.isEmpty(reservationDtoList)){
+            resultResponse.setCode(ResultEnum.NOTEXIST.getCode());
+            resultResponse.setMsg(ResultEnum.NOTEXIST.getMsg());
+        }
+        resultResponse.setCode(ResultEnum.OK.getCode());
+        resultResponse.setMsg(ResultEnum.OK.getMsg());
+        resultResponse.setData(reservationDtoList);
+        return resultResponse;
     }
 
     public Boolean checkParams(CustomerInfo customer){
