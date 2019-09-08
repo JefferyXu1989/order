@@ -1,15 +1,11 @@
 package com.cosmose.order.dao;
 
-import com.cosmose.order.dto.ReservationDto;
-import com.cosmose.order.entity.ReservationInfo;
 import com.cosmose.order.entity.RoomInfo;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.persistence.Tuple;
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface RoomInfoDao extends CrudRepository<RoomInfo,Integer> {

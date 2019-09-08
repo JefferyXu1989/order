@@ -11,9 +11,9 @@ public class ReservationInfo {
     private long reserveId;
     private long roomId;
     private long customerId;
-    private Date startDate;
-    private Date lastDate;
-    private byte status;
+    private String startDate;
+    private String lastDate;
+    private int status;
     private Date createdAt;
     private String createdBy;
     private Date updatedAt;
@@ -51,31 +51,31 @@ public class ReservationInfo {
 
     @Basic
     @Column(name = "start_date")
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
     @Basic
     @Column(name = "last_date")
-    public Date getLastDate() {
+    public String getLastDate() {
         return lastDate;
     }
 
-    public void setLastDate(Date lastDate) {
+    public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
     }
 
     @Basic
     @Column(name = "status")
-    public byte getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(byte status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

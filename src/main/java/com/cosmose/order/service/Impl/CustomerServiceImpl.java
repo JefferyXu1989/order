@@ -8,7 +8,6 @@ import com.cosmose.order.dto.ReservationDto;
 import com.cosmose.order.entity.*;
 import com.cosmose.order.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -97,6 +96,24 @@ public class CustomerServiceImpl implements CustomerService {
         resultResponse.setMsg(ResultEnum.OK.getMsg());
         resultResponse.setData(reservationDtoList);
         return resultResponse;
+    }
+
+    public ResultCode reserveRoom(ReservationInfo reservationInfo){
+        ResultCode resultCode = new ResultCode();
+        reservationInfo.setStatus(1);
+        reservationInfo.setCreatedAt(new Date());
+        reservationInfo.setCreatedBy("SYS");
+        reservationInfo.setUpdatedAt(new Date());
+        reservationInfo.setUpdatedBy("SYS");
+        int result = reservationInfoDao.save(reservationInfo)!= null ? 1:0;
+        if (result>0){
+            resultCode.setCode(ResultEnum.OK.getCode());
+            resultCode.setMsg(ResultEnum.OK.getMsg());
+        }else {
+            resultCode.setCode(ResultEnum.FAIL.getCode());
+            resultCode.setMsg(ResultEnum.FAIL.getMsg());
+        }
+        return resultCode;
     }
 
     public Boolean checkParams(CustomerInfo customer){

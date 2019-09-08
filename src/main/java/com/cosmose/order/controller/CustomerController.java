@@ -1,9 +1,6 @@
 package com.cosmose.order.controller;
 
-import com.cosmose.order.entity.CustomerInfo;
-import com.cosmose.order.entity.QueryCondition;
-import com.cosmose.order.entity.ResultCode;
-import com.cosmose.order.entity.ResultResponse;
+import com.cosmose.order.entity.*;
 import com.cosmose.order.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +30,10 @@ public class CustomerController {
     @PostMapping("/checkReservation")
     public ResultResponse checkReservation(@RequestParam long customerId){
         return customerService.checkReservation(customerId);
+    }
+
+    @PostMapping("/reserveRoom")
+    public ResultCode reserveRoom(ReservationInfo reservationInfo){
+        return customerService.reserveRoom(reservationInfo);
     }
 }

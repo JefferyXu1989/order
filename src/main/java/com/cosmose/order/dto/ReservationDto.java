@@ -4,19 +4,20 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ReservationDto {
-    private long reserveId;
+    private Long reserveId;
     private Date startDate;
     private Date lastDate;
+    private Integer status;
     private String roomNum;
     private String hotelName;
     private BigDecimal dailyPrice;
     private String city;
 
-    public long getReserveId() {
+    public Long getReserveId() {
         return reserveId;
     }
 
-    public void setReserveId(long reserveId) {
+    public void setReserveId(Long reserveId) {
         this.reserveId = reserveId;
     }
 
@@ -66,5 +67,13 @@ public class ReservationDto {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

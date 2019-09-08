@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "customer_info", schema = "orderbusiness")
 public class CustomerInfo {
-    private long customerId;
+    private Long customerId;
     private String userName;
     private String encPwd;
     private String gender;
@@ -21,11 +21,11 @@ public class CustomerInfo {
 
     @Id
     @Column(name = "customer_id")
-    public long getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
