@@ -2,14 +2,12 @@ package com.cosmose.order.controller;
 
 import com.cosmose.order.entity.*;
 import com.cosmose.order.service.CustomerService;
-import com.cosmose.order.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author OUKELE
+ * @author xujian
  * @create 2019-04-14 17:24
  */
 
@@ -19,8 +17,6 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-    @Autowired
-    private RoomService roomService;
 
     @PostMapping("/saveCustomerInfo")
     public ResultCode saveCustomerInfo(CustomerInfo customer){
@@ -43,7 +39,7 @@ public class CustomerController {
     }
 
     @PostMapping("/findAvailableHotelRoom")
-    public Page<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition){
+    public ResultResponse findAvailableHotelRoom(QueryCondition queryCondition){
         return customerService.findAvailableHotelRoom(queryCondition);
     }
 }

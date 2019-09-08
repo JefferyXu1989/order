@@ -4,6 +4,8 @@ import com.cosmose.order.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 public interface CustomerService {
 
     ResultCode save(CustomerInfo customer);
@@ -14,5 +16,5 @@ public interface CustomerService {
 
     ResultCode reserveRoom(ReservationInfo reservationInfo);
 
-    Page<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition);
+    ResultResponse findAvailableHotelRoom(QueryCondition queryCondition);
 }

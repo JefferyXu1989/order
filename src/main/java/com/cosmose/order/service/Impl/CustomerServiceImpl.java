@@ -23,9 +23,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author OUKELE
@@ -127,7 +127,8 @@ public class CustomerServiceImpl implements CustomerService {
         return resultCode;
     }
 
-    public Page<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition) {
+    public ResultResponse findAvailableHotelRoom(QueryCondition queryCondition) {
+        ResultResponse resultResponse = new ResultResponse();
         Pageable pageable =  PageRequest.of(queryCondition.getPageNum(), queryCondition.getPageSize(), Sort.Direction.ASC, "roomId");
         Specification<RoomInfo> sp = new Specification<RoomInfo>() {
             @Override
@@ -147,8 +148,47 @@ public class CustomerServiceImpl implements CustomerService {
                 return predicate;
             }
         };
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date queryStartDate = null;
+        Date queryEndDate = null;
+        Date checkinDate = null;
+        Date checkoutDate = null;
+        List<ReservationInfo> reservationInfoList = reservationInfoDao.findReservationInfoByStatus();
         Page<RoomInfo> roomInfoPage = roomInfoDao.findAll(sp, pageable);
-        return roomInfoPage;
+        if (CollectionUtils.isEmpty(roomInfoPage.getContent()) || CollectionUtils.isEmpty(reservationInfoList)) {
+            resultResponse.setCode(ResultEnum.OK.getCode());
+            resultResponse.setMsg(ResultEnum.OK.getMsg());
+            resultResponse.setData(roomInfoPage.getContent());
+            return resultResponse;
+        }
+        List<RoomInfo> list = new ArrayList<RoomInfo>(roomInfoPage.getContent());
+        for(int i = 0; i < reservationInfoList.size(); i ++){
+            try {
+                queryStartDate = sdf.parse(queryCondition.getStartDate());
+                queryEndDate = sdf.parse(queryCondition.getEndDate());
+                checkinDate = sdf.parse(reservationInfoList.get(i).getStartDate());;
+                checkoutDate = sdf.parse(reservationInfoList.get(i).getLastDate());;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if((checkinDate.compareTo(queryStartDate) >= 0
+               && checkinDate.compareTo(queryEndDate) <= 0) ||
+                (checkoutDate.compareTo(queryStartDate) >= 0
+                 && checkoutDate.compareTo(queryEndDate) <= 0) ||
+                (checkinDate.compareTo(queryStartDate) == -1
+                && checkoutDate.compareTo(queryEndDate) == 1)){
+                Iterator<RoomInfo> iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    if(reservationInfoList.get(i).getRoomId() == iterator.next().getRoomId()){
+                        iterator.remove();
+                    }
+                }
+            }
+        }
+        resultResponse.setCode(ResultEnum.OK.getCode());
+        resultResponse.setMsg(ResultEnum.OK.getMsg());
+        resultResponse.setData(list);
+        return resultResponse;
     }
 
     public Boolean checkParams(CustomerInfo customer){
