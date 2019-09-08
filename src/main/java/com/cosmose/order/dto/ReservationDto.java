@@ -3,6 +3,10 @@ package com.cosmose.order.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 public class ReservationDto {
     private Long reserveId;
     private Date startDate;

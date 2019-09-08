@@ -1,19 +1,22 @@
 package com.cosmose.order.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 @Entity
 @Table(name = "reservation_info", schema = "orderbusiness")
 public class ReservationInfo {
-    private long reserveId;
-    private long roomId;
-    private long customerId;
+    private Long reserveId;
+    private Long roomId;
+    private Long customerId;
     private String startDate;
     private String lastDate;
-    private int status;
+    private Integer status;
     private Date createdAt;
     private String createdBy;
     private Date updatedAt;
@@ -21,31 +24,31 @@ public class ReservationInfo {
 
     @Id
     @Column(name = "reserve_id")
-    public long getReserveId() {
+    public Long getReserveId() {
         return reserveId;
     }
 
-    public void setReserveId(long reserveId) {
+    public void setReserveId(Long reserveId) {
         this.reserveId = reserveId;
     }
 
     @Basic
     @Column(name = "room_id")
-    public long getRoomId() {
+    public Long getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(long roomId) {
+    public void setRoomId(Long roomId) {
         this.roomId = roomId;
     }
 
     @Basic
     @Column(name = "customer_id")
-    public long getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -71,11 +74,11 @@ public class ReservationInfo {
 
     @Basic
     @Column(name = "status")
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -124,12 +127,12 @@ public class ReservationInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReservationInfo that = (ReservationInfo) o;
-        return reserveId == that.reserveId &&
-                roomId == that.roomId &&
-                customerId == that.customerId &&
+        return Objects.equals(reserveId, that.reserveId) &&
+                Objects.equals(roomId, that.roomId) &&
+                Objects.equals(customerId, that.customerId) &&
                 status == that.status &&
-                Objects.equals(startDate, that.startDate) &&
-                Objects.equals(lastDate, that.lastDate) &&
+                startDate == that.startDate &&
+                lastDate == that.lastDate &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(createdBy, that.createdBy) &&
                 Objects.equals(updatedAt, that.updatedAt) &&

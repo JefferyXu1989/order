@@ -1,10 +1,13 @@
 package com.cosmose.order.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 @Entity
 @Table(name = "customer_info", schema = "orderbusiness")
 public class CustomerInfo {

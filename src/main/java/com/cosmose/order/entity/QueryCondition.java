@@ -1,8 +1,11 @@
 package com.cosmose.order.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 public class QueryCondition {
     private String cityName;
     private BigDecimal startDailyPrice;

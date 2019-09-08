@@ -1,5 +1,9 @@
 package com.cosmose.order.entity;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 public enum ResultEnum {
     OK("00", "success"),
     FAIL("01", "failed"),

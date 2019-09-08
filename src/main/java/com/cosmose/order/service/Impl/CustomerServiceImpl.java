@@ -1,5 +1,6 @@
 package com.cosmose.order.service.Impl;
 
+import com.cosmose.order.Utils.MD5Utils;
 import com.cosmose.order.Utils.NativeResultProcessUtils;
 import com.cosmose.order.dao.CustomerDao;
 import com.cosmose.order.dao.ReservationInfoDao;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.DigestUtils;
 
 import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,10 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @author OUKELE
- * @create 2019-04-13 18:24
+ * @author xujian
+ * @create 2019-09-07
  */
-
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -56,6 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
             resultCode.setMsg(ResultEnum.EXIST.getMsg());
             return resultCode;
         }
+        customer.setEncPwd(MD5Utils.stringToMD5(customer.getEncPwd()));
         customer.setCreatedAt(new Date());
         customer.setCreatedBy("SYS");
         customer.setUpdatedAt(new Date());
@@ -111,6 +113,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     public ResultCode reserveRoom(ReservationInfo reservationInfo){
         ResultCode resultCode = new ResultCode();
+        if(reservationInfo.getRoomId() == null || reservationInfo.getCustomerId() == null||
+            StringUtils.isBlank(reservationInfo.getStartDate()) || StringUtils.isBlank(reservationInfo.getLastDate())){
+            resultCode.setCode(ResultEnum.CHECK_EXCEPTION.getCode());
+            resultCode.setMsg(ResultEnum.CHECK_EXCEPTION.getMsg());
+            return resultCode;
+        }
         reservationInfo.setStatus(1);
         reservationInfo.setCreatedAt(new Date());
         reservationInfo.setCreatedBy("SYS");
@@ -129,7 +137,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     public ResultResponse findAvailableHotelRoom(QueryCondition queryCondition) {
         ResultResponse resultResponse = new ResultResponse();
-        Pageable pageable =  PageRequest.of(queryCondition.getPageNum(), queryCondition.getPageSize(), Sort.Direction.ASC, "roomId");
+        if(StringUtils.isBlank(queryCondition.getStartDate()) || StringUtils.isBlank(queryCondition.getEndDate())){
+            resultResponse.setCode(ResultEnum.CHECK_EXCEPTION.getCode());
+            resultResponse.setMsg(ResultEnum.CHECK_EXCEPTION.getMsg());
+            return resultResponse;
+        }
+        Pageable pageable =  PageRequest.of(0, 100, Sort.Direction.ASC, "roomId");
         Specification<RoomInfo> sp = new Specification<RoomInfo>() {
             @Override
             public Predicate toPredicate(Root<RoomInfo> r, CriteriaQuery<?> q, CriteriaBuilder cb) {

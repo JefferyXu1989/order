@@ -1,11 +1,11 @@
 package com.cosmose.order.service;
 
 import com.cosmose.order.entity.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 
-import java.util.List;
-
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 public interface CustomerService {
 
     ResultCode save(CustomerInfo customer);

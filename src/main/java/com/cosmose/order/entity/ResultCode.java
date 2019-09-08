@@ -1,5 +1,9 @@
 package com.cosmose.order.entity;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 public class ResultCode {
     private String code;
     private String msg;

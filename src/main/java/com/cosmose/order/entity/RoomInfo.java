@@ -6,6 +6,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @author xujian
+ * @create 2019-09-07
+ */
 @Entity
 @Table(name = "room_info", schema = "orderbusiness")
 public class RoomInfo implements Serializable {
