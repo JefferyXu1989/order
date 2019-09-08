@@ -1,19 +1,9 @@
 package com.cosmose.order.entity;
 
-public enum ResultEnum {
-    OK("00", "success"),
-    FAIL("01", "failed"),
-    CHECK_EXCEPTION("02", "miss necessary parameter"),
-    EXIST("04", "records already exist"),
-    NOTEXIST("05", "records does not exist");
-
+public class ResultResponse {
     private String code;
     private String msg;
-
-    ResultEnum(String code, String msg){
-        this.code = code;
-        this.msg = msg;
-    }
+    private Class<?> data;
 
     public String getCode() {
         return code;
@@ -29,5 +19,13 @@ public enum ResultEnum {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public Class<?> getData() {
+        return data;
+    }
+
+    public void setData(Class<?> data) {
+        this.data = data;
     }
 }
