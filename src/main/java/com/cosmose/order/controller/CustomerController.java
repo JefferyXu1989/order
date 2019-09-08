@@ -18,7 +18,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     /**
-     * Register a customer account
+     * Register a order account
      * @param customer
      * @return
      */
