@@ -1,6 +1,8 @@
 package com.cosmose.order.service;
 
 import com.cosmose.order.entity.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface CustomerService {
 
@@ -12,4 +14,5 @@ public interface CustomerService {
 
     ResultCode reserveRoom(ReservationInfo reservationInfo);
 
+    Page<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition);
 }

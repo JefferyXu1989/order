@@ -7,11 +7,22 @@ import com.cosmose.order.dao.RoomInfoDao;
 import com.cosmose.order.dto.ReservationDto;
 import com.cosmose.order.entity.*;
 import com.cosmose.order.service.CustomerService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.Tuple;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,6 +125,30 @@ public class CustomerServiceImpl implements CustomerService {
             resultCode.setMsg(ResultEnum.FAIL.getMsg());
         }
         return resultCode;
+    }
+
+    public Page<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition) {
+        Pageable pageable =  PageRequest.of(queryCondition.getPageNum(), queryCondition.getPageSize(), Sort.Direction.ASC, "roomId");
+        Specification<RoomInfo> sp = new Specification<RoomInfo>() {
+            @Override
+            public Predicate toPredicate(Root<RoomInfo> r, CriteriaQuery<?> q, CriteriaBuilder cb) {
+                Predicate predicate = cb.conjunction();
+                if (queryCondition != null) {
+                    if (StringUtils.isNotBlank(queryCondition.getCityName())) {
+                        predicate.getExpressions().add(cb.equal(r.<String> get("city"), StringUtils.trim(queryCondition.getCityName())));
+                    }
+                    if (queryCondition.getStartDailyPrice() != null) {
+                        predicate.getExpressions().add(cb.greaterThanOrEqualTo(r.<BigDecimal> get("dailyPrice"), queryCondition.getStartDailyPrice()));
+                    }
+                    if (queryCondition.getEndDailyPrice() != null) {
+                        predicate.getExpressions().add(cb.lessThanOrEqualTo(r.<BigDecimal> get("dailyPrice"), queryCondition.getEndDailyPrice()));
+                    }
+                }
+                return predicate;
+            }
+        };
+        Page<RoomInfo> roomInfoPage = roomInfoDao.findAll(sp, pageable);
+        return roomInfoPage;
     }
 
     public Boolean checkParams(CustomerInfo customer){

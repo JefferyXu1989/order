@@ -1,13 +1,16 @@
 package com.cosmose.order.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "room_info", schema = "orderbusiness")
-public class RoomInfo {
+public class RoomInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private long roomId;
     private String roomNum;
     private String hotelName;
