@@ -28,6 +28,7 @@ public class RoomInfo implements Serializable {
 
     @Id
     @Column(name = "room_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public long getRoomId() {
         return roomId;
     }

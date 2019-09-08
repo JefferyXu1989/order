@@ -24,6 +24,7 @@ public class ReservationInfo {
 
     @Id
     @Column(name = "reserve_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getReserveId() {
         return reserveId;
     }

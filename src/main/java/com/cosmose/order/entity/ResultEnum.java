@@ -8,8 +8,8 @@ public enum ResultEnum {
     OK("00", "success"),
     FAIL("01", "failed"),
     CHECK_EXCEPTION("02", "miss necessary parameter"),
-    EXIST("04", "records already exist"),
-    NOTEXIST("05", "records does not exist");
+    EXIST("03", "records already exist"),
+    NOTEXIST("04", "records does not exist");
 
     private String code;
     private String msg;

@@ -24,6 +24,7 @@ public class CustomerInfo {
 
     @Id
     @Column(name = "customer_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getCustomerId() {
         return customerId;
     }

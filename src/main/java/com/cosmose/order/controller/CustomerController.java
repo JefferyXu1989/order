@@ -28,7 +28,7 @@ public class CustomerController {
     }
 
     /**
-     * .User can cancel his reservation
+     * User can cancel his reservation
      * @param reserveId
      * @return
      */
