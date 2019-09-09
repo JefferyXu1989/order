@@ -128,7 +128,7 @@ public class CustomerInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerInfo that = (CustomerInfo) o;
-        return customerId == that.customerId &&
+        return Objects.equals(customerId, that.customerId) &&
                 Objects.equals(userName, that.userName) &&
                 Objects.equals(encPwd, that.encPwd) &&
                 Objects.equals(gender, that.gender) &&

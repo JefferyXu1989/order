@@ -44,17 +44,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public ResultCode save(CustomerInfo customer) {
-        ResultCode resultCode = new ResultCode();
         if(checkParams(customer)){
-            resultCode.setCode(ResultEnum.CHECK_EXCEPTION.getCode());
-            resultCode.setMsg(ResultEnum.CHECK_EXCEPTION.getMsg());
-            return resultCode;
+            return new ResultCode(ResultEnum.CHECK_EXCEPTION);
         }
         CustomerInfo customerInfo = customerDao.findCustomerInfoByMobileNo(customer.getMobileNo());
         if(customerInfo != null){
-            resultCode.setCode(ResultEnum.EXIST.getCode());
-            resultCode.setMsg(ResultEnum.EXIST.getMsg());
-            return resultCode;
+            return new ResultCode(ResultEnum.EXIST);
         }
         customer.setEncPwd(MD5Utils.stringToMD5(customer.getEncPwd()));
         customer.setCreatedAt(new Date());
@@ -63,36 +58,26 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setUpdatedBy("SYS");
         int result = customerDao.save(customer)!= null ? 1:0;
         if (result>0){
-            resultCode.setCode(ResultEnum.OK.getCode());
-            resultCode.setMsg(ResultEnum.OK.getMsg());
+            return new ResultCode(ResultEnum.OK);
         }else {
-            resultCode.setCode(ResultEnum.FAIL.getCode());
-            resultCode.setMsg(ResultEnum.FAIL.getMsg());
+            return new ResultCode(ResultEnum.FAIL);
         }
-        return resultCode;
     }
 
     public ResultCode cancelHotelRoom(long reserveId){
-        ResultCode resultCode = new ResultCode();
         ReservationInfo reservationInfo = reservationInfoDao.findReservationInfoByReserveId(reserveId);
         if(reservationInfo == null){
-            resultCode.setCode(ResultEnum.NOTEXIST.getCode());
-            resultCode.setMsg(ResultEnum.NOTEXIST.getMsg());
-            return resultCode;
+            return new ResultCode(ResultEnum.NOTEXIST);
         }
         int result = reservationInfoDao.updateStatusToCancel(reserveId);
         if (result == 1){
-            resultCode.setCode(ResultEnum.OK.getCode());
-            resultCode.setMsg(ResultEnum.OK.getMsg());
+            return new ResultCode(ResultEnum.OK);
         }else {
-            resultCode.setCode(ResultEnum.FAIL.getCode());
-            resultCode.setMsg(ResultEnum.FAIL.getMsg());
+            return new ResultCode(ResultEnum.FAIL);
         }
-        return resultCode;
     }
 
     public ResultResponse checkReservation(long customerId){
-        ResultResponse resultResponse =  new ResultResponse();
         List<Tuple> tupleList = roomInfoDao.findReservationByCustomerId(customerId);
         List<ReservationDto> reservationDtoList = new ArrayList<ReservationDto>();
         for(int i = 0; i < tupleList.size(); i ++){
@@ -101,22 +86,15 @@ public class CustomerServiceImpl implements CustomerService {
             reservationDtoList.add(reservationDto);
         }
         if(CollectionUtils.isEmpty(reservationDtoList)){
-            resultResponse.setCode(ResultEnum.NOTEXIST.getCode());
-            resultResponse.setMsg(ResultEnum.NOTEXIST.getMsg());
+            return new ResultResponse(ResultEnum.NOTEXIST);
         }
-        resultResponse.setCode(ResultEnum.OK.getCode());
-        resultResponse.setMsg(ResultEnum.OK.getMsg());
-        resultResponse.setData(reservationDtoList);
-        return resultResponse;
+        return new ResultResponse(ResultEnum.OK, reservationDtoList);
     }
 
     public ResultCode reserveRoom(ReservationInfo reservationInfo){
-        ResultCode resultCode = new ResultCode();
         if(reservationInfo.getRoomId() == null || reservationInfo.getCustomerId() == null||
             StringUtils.isBlank(reservationInfo.getStartDate()) || StringUtils.isBlank(reservationInfo.getLastDate())){
-            resultCode.setCode(ResultEnum.CHECK_EXCEPTION.getCode());
-            resultCode.setMsg(ResultEnum.CHECK_EXCEPTION.getMsg());
-            return resultCode;
+            return new ResultCode(ResultEnum.CHECK_EXCEPTION);
         }
         reservationInfo.setStatus(1);
         reservationInfo.setCreatedAt(new Date());
@@ -125,55 +103,23 @@ public class CustomerServiceImpl implements CustomerService {
         reservationInfo.setUpdatedBy("SYS");
         int result = reservationInfoDao.save(reservationInfo)!= null ? 1:0;
         if (result>0){
-            resultCode.setCode(ResultEnum.OK.getCode());
-            resultCode.setMsg(ResultEnum.OK.getMsg());
+            return new ResultCode(ResultEnum.OK);
         }else {
-            resultCode.setCode(ResultEnum.FAIL.getCode());
-            resultCode.setMsg(ResultEnum.FAIL.getMsg());
+            return new ResultCode(ResultEnum.FAIL);
         }
-        return resultCode;
     }
 
     public ResultResponse findAvailableHotelRoom(QueryCondition queryCondition) {
-        ResultResponse resultResponse = new ResultResponse();
-        if(StringUtils.isBlank(queryCondition.getStartDate()) || StringUtils.isBlank(queryCondition.getEndDate())){
-            resultResponse.setCode(ResultEnum.CHECK_EXCEPTION.getCode());
-            resultResponse.setMsg(ResultEnum.CHECK_EXCEPTION.getMsg());
-            return resultResponse;
-        }
-        Pageable pageable =  PageRequest.of(0, 100, Sort.Direction.ASC, "roomId");
-        Specification<RoomInfo> sp = new Specification<RoomInfo>() {
-            @Override
-            public Predicate toPredicate(Root<RoomInfo> r, CriteriaQuery<?> q, CriteriaBuilder cb) {
-                Predicate predicate = cb.conjunction();
-                if (queryCondition != null) {
-                    if (StringUtils.isNotBlank(queryCondition.getCityName())) {
-                        predicate.getExpressions().add(cb.equal(r.<String> get("city"), StringUtils.trim(queryCondition.getCityName())));
-                    }
-                    if (queryCondition.getStartDailyPrice() != null) {
-                        predicate.getExpressions().add(cb.greaterThanOrEqualTo(r.<BigDecimal> get("dailyPrice"), queryCondition.getStartDailyPrice()));
-                    }
-                    if (queryCondition.getEndDailyPrice() != null) {
-                        predicate.getExpressions().add(cb.lessThanOrEqualTo(r.<BigDecimal> get("dailyPrice"), queryCondition.getEndDailyPrice()));
-                    }
-                }
-                return predicate;
-            }
-        };
+        List<RoomInfo> roomInfoList = roomInfoDao.findRoomInfoByQueryCondition(queryCondition.getCityName(), queryCondition.getStartDailyPrice(), queryCondition.getEndDailyPrice());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date queryStartDate = null;
         Date queryEndDate = null;
         Date checkinDate = null;
         Date checkoutDate = null;
         List<ReservationInfo> reservationInfoList = reservationInfoDao.findReservationInfoByStatus();
-        Page<RoomInfo> roomInfoPage = roomInfoDao.findAll(sp, pageable);
-        if (CollectionUtils.isEmpty(roomInfoPage.getContent()) || CollectionUtils.isEmpty(reservationInfoList)) {
-            resultResponse.setCode(ResultEnum.OK.getCode());
-            resultResponse.setMsg(ResultEnum.OK.getMsg());
-            resultResponse.setData(roomInfoPage.getContent());
-            return resultResponse;
+        if (CollectionUtils.isEmpty(roomInfoList) || CollectionUtils.isEmpty(reservationInfoList)) {
+            return new ResultResponse(ResultEnum.OK, roomInfoList);
         }
-        List<RoomInfo> list = new ArrayList<RoomInfo>(roomInfoPage.getContent());
         for(int i = 0; i < reservationInfoList.size(); i ++){
             try {
                 queryStartDate = sdf.parse(queryCondition.getStartDate());
@@ -189,7 +135,7 @@ public class CustomerServiceImpl implements CustomerService {
                  && checkoutDate.compareTo(queryEndDate) <= 0) ||
                 (checkinDate.compareTo(queryStartDate) == -1
                 && checkoutDate.compareTo(queryEndDate) == 1)){
-                Iterator<RoomInfo> iterator = list.iterator();
+                Iterator<RoomInfo> iterator = roomInfoList.iterator();
                 while (iterator.hasNext()) {
                     if(reservationInfoList.get(i).getRoomId() == iterator.next().getRoomId()){
                         iterator.remove();
@@ -197,10 +143,7 @@ public class CustomerServiceImpl implements CustomerService {
                 }
             }
         }
-        resultResponse.setCode(ResultEnum.OK.getCode());
-        resultResponse.setMsg(ResultEnum.OK.getMsg());
-        resultResponse.setData(list);
-        return resultResponse;
+        return new ResultResponse(ResultEnum.OK, roomInfoList);
     }
 
     public Boolean checkParams(CustomerInfo customer){

@@ -12,8 +12,6 @@ public class QueryCondition {
     private BigDecimal endDailyPrice;
     private String startDate;
     private String endDate;
-    private Integer pageNum;
-    private Integer pageSize;
 
     public String getCityName() {
         return cityName;
@@ -53,21 +51,5 @@ public class QueryCondition {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
-    }
-
-    public Integer getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
     }
 }

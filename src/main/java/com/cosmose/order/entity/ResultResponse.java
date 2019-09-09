@@ -9,6 +9,20 @@ public class ResultResponse<T> {
     private String msg;
     private T data;
 
+    public  ResultResponse(){
+    }
+
+    public ResultResponse(ResultEnum resultEnum){
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
+    }
+
+    public ResultResponse(ResultEnum resultEnum, T data){
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
+        this.data = data;
+    }
+
     public String getCode() {
         return code;
     }

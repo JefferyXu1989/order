@@ -9,12 +9,16 @@ public class ResultCode {
     private String msg;
 
     public ResultCode(){
-
     }
 
     public ResultCode(String code, String msg){
         this.code = code;
         this.msg = msg;
+    }
+
+    public ResultCode(ResultEnum resultEnum){
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
     }
 
     public String getCode() {

@@ -132,8 +132,8 @@ public class ReservationInfo {
                 Objects.equals(roomId, that.roomId) &&
                 Objects.equals(customerId, that.customerId) &&
                 status == that.status &&
-                startDate == that.startDate &&
-                lastDate == that.lastDate &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(lastDate, that.lastDate) &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(createdBy, that.createdBy) &&
                 Objects.equals(updatedAt, that.updatedAt) &&

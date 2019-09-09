@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -15,25 +16,25 @@ import java.util.Objects;
 public class RoomInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private long roomId;
+    private Long roomId;
     private String roomNum;
     private String hotelName;
     private BigDecimal dailyPrice;
     private String city;
     private String remark;
-    private Timestamp createdAt;
+    private Date createdAt;
     private String createdBy;
-    private Timestamp updatedAt;
+    private Date updatedAt;
     private String updatedBy;
 
     @Id
     @Column(name = "room_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    public long getRoomId() {
+    public Long getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(long roomId) {
+    public void setRoomId(Long roomId) {
         this.roomId = roomId;
     }
 
@@ -89,11 +90,11 @@ public class RoomInfo implements Serializable {
 
     @Basic
     @Column(name = "created_at")
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -109,11 +110,11 @@ public class RoomInfo implements Serializable {
 
     @Basic
     @Column(name = "updated_at")
-    public Timestamp getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -132,7 +133,7 @@ public class RoomInfo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoomInfo roomInfo = (RoomInfo) o;
-        return roomId == roomInfo.roomId &&
+        return Objects.equals(roomId, roomInfo.roomId) &&
                 Objects.equals(roomNum, roomInfo.roomNum) &&
                 Objects.equals(hotelName, roomInfo.hotelName) &&
                 Objects.equals(dailyPrice, roomInfo.dailyPrice) &&
