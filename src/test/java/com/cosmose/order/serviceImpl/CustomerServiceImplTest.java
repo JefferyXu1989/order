@@ -20,7 +20,7 @@ public class CustomerServiceImplTest {
 
     @Test
     public void getList(){
-        System.out.println(customerService.checkReservation(12));
+        System.out.println(customerService.checkReservation(12L));
     }
 
 }
