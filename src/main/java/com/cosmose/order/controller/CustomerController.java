@@ -1,9 +1,12 @@
 package com.cosmose.order.controller;
 
 import com.cosmose.order.entity.*;
+import com.cosmose.order.enums.ResultEnum;
 import com.cosmose.order.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author xujian
@@ -67,6 +70,7 @@ public class CustomerController {
      */
     @PostMapping("/findAvailableHotelRoom")
     public ResultResponse findAvailableHotelRoom(QueryCondition queryCondition){
-        return customerService.findAvailableHotelRoom(queryCondition);
+        List<RoomInfo> roomInfoList = customerService.findAvailableHotelRoom(queryCondition);
+        return new ResultResponse(ResultEnum.OK, roomInfoList);
     }
 }

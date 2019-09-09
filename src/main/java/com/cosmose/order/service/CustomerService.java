@@ -2,6 +2,8 @@ package com.cosmose.order.service;
 
 import com.cosmose.order.entity.*;
 
+import java.util.List;
+
 /**
  * @author xujian
  * @create 2019-09-07
@@ -16,5 +18,5 @@ public interface CustomerService {
 
     ResultCode reserveRoom(ReservationInfo reservationInfo);
 
-    ResultResponse findAvailableHotelRoom(QueryCondition queryCondition);
+    List<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition);
 }

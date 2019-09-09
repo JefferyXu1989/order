@@ -1,4 +1,4 @@
-package com.cosmose.order.entity;
+package com.cosmose.order.enums;
 
 /**
  * @author xujian
@@ -9,7 +9,9 @@ public enum ResultEnum {
     FAIL("01", "failed"),
     CHECK_EXCEPTION("02", "miss necessary parameter"),
     EXIST("03", "records already exist"),
-    NOTEXIST("04", "records does not exist");
+    NOTEXIST("04", "records does not exist"),
+    NO_AVAILABLE("05", "no available room exist"),
+    ALREADY_RESERVED("06", "room has been already reserved");
 
     private String code;
     private String msg;

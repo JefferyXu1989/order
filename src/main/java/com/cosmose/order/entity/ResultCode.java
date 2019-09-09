@@ -1,5 +1,7 @@
 package com.cosmose.order.entity;
 
+import com.cosmose.order.enums.ResultEnum;
+
 /**
  * @author xujian
  * @create 2019-09-07

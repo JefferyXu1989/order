@@ -7,23 +7,15 @@ import com.cosmose.order.dao.ReservationInfoDao;
 import com.cosmose.order.dao.RoomInfoDao;
 import com.cosmose.order.dto.ReservationDto;
 import com.cosmose.order.entity.*;
+import com.cosmose.order.enums.ReserveStatusEnum;
+import com.cosmose.order.enums.ResultEnum;
 import com.cosmose.order.service.CustomerService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.Tuple;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -102,7 +94,23 @@ public class CustomerServiceImpl implements CustomerService {
             StringUtils.isBlank(reservationInfo.getStartDate()) || StringUtils.isBlank(reservationInfo.getLastDate())){
             return new ResultCode(ResultEnum.CHECK_EXCEPTION);
         }
-        reservationInfo.setStatus(1);
+        QueryCondition queryCondition = new QueryCondition();
+        queryCondition.setStartDate(reservationInfo.getStartDate());
+        queryCondition.setEndDate(reservationInfo.getLastDate());
+        List<RoomInfo> roomInfoList = findAvailableHotelRoom(queryCondition);
+        if(CollectionUtils.isEmpty(roomInfoList)){
+            return new ResultCode(ResultEnum.NO_AVAILABLE);
+        }
+        int count = 0;
+        for(int i = 0; i < roomInfoList.size(); i ++){
+            if(roomInfoList.get(i).getRoomId() != reservationInfo.getRoomId()){
+                count ++;
+            }
+        }
+        if(count == roomInfoList.size()){
+            return new ResultCode(ResultEnum.ALREADY_RESERVED);
+        }
+        reservationInfo.setStatus(ReserveStatusEnum.SUCCESS.getCode());
         reservationInfo.setCreatedAt(new Date());
         reservationInfo.setCreatedBy("SYS");
         reservationInfo.setUpdatedAt(new Date());
@@ -115,7 +123,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    public ResultResponse findAvailableHotelRoom(QueryCondition queryCondition) {
+    public List<RoomInfo> findAvailableHotelRoom(QueryCondition queryCondition) {
         List<RoomInfo> roomInfoList = roomInfoDao.findRoomInfoByQueryCondition(queryCondition.getCityName(), queryCondition.getStartDailyPrice(), queryCondition.getEndDailyPrice());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date queryStartDate = null;
@@ -124,7 +132,7 @@ public class CustomerServiceImpl implements CustomerService {
         Date checkoutDate = null;
         List<ReservationInfo> reservationInfoList = reservationInfoDao.findReservationInfoByStatus();
         if (CollectionUtils.isEmpty(roomInfoList) || CollectionUtils.isEmpty(reservationInfoList)) {
-            return new ResultResponse(ResultEnum.OK, roomInfoList);
+            return roomInfoList;
         }
         for(int i = 0; i < reservationInfoList.size(); i ++){
             try {
@@ -133,7 +141,7 @@ public class CustomerServiceImpl implements CustomerService {
                 checkinDate = sdf.parse(reservationInfoList.get(i).getStartDate());;
                 checkoutDate = sdf.parse(reservationInfoList.get(i).getLastDate());;
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
             if((checkinDate.compareTo(queryStartDate) >= 0
                && checkinDate.compareTo(queryEndDate) <= 0) ||
@@ -149,7 +157,7 @@ public class CustomerServiceImpl implements CustomerService {
                 }
             }
         }
-        return new ResultResponse(ResultEnum.OK, roomInfoList);
+        return roomInfoList;
     }
 
     public Boolean checkParams(CustomerInfo customer){
