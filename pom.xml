@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>com.demo</groupId>
-    <artifactId>customer</artifactId>
+    <artifactId>order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>customer</name>
+    <name>order</name>
     <description>Demo project</description>
 
     <properties>
