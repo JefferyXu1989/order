@@ -83,9 +83,6 @@ public class CustomerServiceImpl implements CustomerService {
             reservationDto = NativeResultProcessUtils.processResult(tupleList.get(i), ReservationDto.class);
             reservationDtoList.add(reservationDto);
         }
-        if(CollectionUtils.isEmpty(reservationDtoList)){
-            return new ResultResponse(ResultEnum.NOTEXIST);
-        }
         return new ResultResponse(ResultEnum.OK, reservationDtoList);
     }
 

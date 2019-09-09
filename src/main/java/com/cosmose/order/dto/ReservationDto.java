@@ -9,8 +9,8 @@ import java.util.Date;
  */
 public class ReservationDto {
     private Long reserveId;
-    private Date startDate;
-    private Date lastDate;
+    private String startDate;
+    private String lastDate;
     private Integer status;
     private String roomNum;
     private String hotelName;
@@ -25,19 +25,19 @@ public class ReservationDto {
         this.reserveId = reserveId;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getLastDate() {
+    public String getLastDate() {
         return lastDate;
     }
 
-    public void setLastDate(Date lastDate) {
+    public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
     }
 
