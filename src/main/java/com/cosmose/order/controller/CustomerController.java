@@ -33,7 +33,7 @@ public class CustomerController {
      * @return
      */
     @PostMapping("/cancelHotelRoom")
-    public ResultCode cancelHotelRoom(@RequestParam long reserveId){
+    public ResultCode cancelHotelRoom(@RequestParam Long reserveId){
         return customerService.cancelHotelRoom(reserveId);
     }
 
@@ -43,7 +43,7 @@ public class CustomerController {
      * @return
      */
     @PostMapping("/checkReservation")
-    public ResultResponse checkReservation(@RequestParam long customerId){
+    public ResultResponse checkReservation(@RequestParam Long customerId){
         return customerService.checkReservation(customerId);
     }
 

@@ -64,7 +64,10 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    public ResultCode cancelHotelRoom(long reserveId){
+    public ResultCode cancelHotelRoom(Long reserveId){
+        if(reserveId == null){
+            return new ResultCode(ResultEnum.CHECK_EXCEPTION);
+        }
         ReservationInfo reservationInfo = reservationInfoDao.findReservationInfoByReserveId(reserveId);
         if(reservationInfo == null){
             return new ResultCode(ResultEnum.NOTEXIST);
@@ -77,7 +80,10 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    public ResultResponse checkReservation(long customerId){
+    public ResultResponse checkReservation(Long customerId){
+        if(customerId == null){
+            return new ResultResponse(ResultEnum.CHECK_EXCEPTION);
+        }
         List<Tuple> tupleList = roomInfoDao.findReservationByCustomerId(customerId);
         List<ReservationDto> reservationDtoList = new ArrayList<ReservationDto>();
         for(int i = 0; i < tupleList.size(); i ++){

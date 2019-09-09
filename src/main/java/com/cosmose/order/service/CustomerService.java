@@ -10,9 +10,9 @@ public interface CustomerService {
 
     ResultCode save(CustomerInfo customer);
 
-    ResultCode cancelHotelRoom(long reserveId);
+    ResultCode cancelHotelRoom(Long reserveId);
 
-    ResultResponse checkReservation(long customerId);
+    ResultResponse checkReservation(Long customerId);
 
     ResultCode reserveRoom(ReservationInfo reservationInfo);
 
