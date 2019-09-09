@@ -3,8 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- 父模块 -->
-    <!-- 包含了自动配置、日志....... -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -24,13 +22,13 @@
 
     <dependencies>
 
-        <!-- springboot 自动配置 -->
+        <!-- springboot auto config -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- 测试框架 -->
+        <!-- test framework -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -44,8 +42,6 @@
             <version>2.1.3.RELEASE</version>
         </dependency>
 
-        <!-- jap 只是一个规范 -->
-        <!-- SpringDataJpa 是 jap规范 再次抽象封装，底层还是使用 Hibernate的JPA技术实现 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -67,7 +63,7 @@
 
     <build>
         <plugins>
-            <!-- maven 插件 -->
+            <!-- maven plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

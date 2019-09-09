@@ -8,10 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @author OUKELE
- * @create 2019-04-14 17:11
+ * @author xujian
+ * @create 2019-09-07
  */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CustomerServiceImplTest {
